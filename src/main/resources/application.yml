@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: hmall-eureka-server
+
+server.port: 1111
+
+endpoints.shutdown.enabled: true
+logging.config: classpath:log4j2.xml
+logging.path: logs/${spring.application.name}-${instance.num:00}
+
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    server:
+      waitTimeInMsWhenSyncEmpty: 0
+      #关闭保护机制
+      enable-self-preservation: false
+      #剔除失效服务间隔
+      eviction-interval-timer-in-ms: 2000
+    serviceUrl:
+      defaultZone: http://localhost:1111/eureka/
+---
+spring.profiles: sit_idc
+server:
+  port: 1111
+  contextPath: /erk
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+---
+spring.profiles: prod
+server:
+  port: 1111
+  contextPath: /erk
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+---
